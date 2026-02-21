@@ -20,8 +20,16 @@
 ### **Triggers**
 - Before/after insert, update triggers  
 
+### **Transactions**
+- trx_01_commit_rollback.sql → basic commit & rollback
+- trx_02_savepoints.sql → savepoints in transactions
+
 ### **DCL (Data Control Language)**
-- Granting and revoking permissions  
+- Granting and revoking permissions
+
+### **General Problems**
+- general_problems.sql → exercises combining DDL, DML, DQL, and transactions
+- Helps practice real-life SQL problems
 
 ---
 
@@ -29,7 +37,7 @@
 
 1. Navigate to the folder for the topic you want.  
 2. Open the `.sql` file directly on GitHub or download it.  
-3. Copy the SQL commands to your database environment (MySQL, Oracle, PostgreSQL, etc.) to execute.  
+3. Copy the SQL commands to your database environment (MySQL) to execute.  
 
 ---
 
