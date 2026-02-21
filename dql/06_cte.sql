@@ -51,3 +51,92 @@ from Posts P inner join Users U
 on p.OwnerUserId=u.Id
 inner join CommentStatis CS
 on CS.PostId=P.Id
+--12)
+--Write a query to find the top 3 highest scoring posts for each PostTypeId.
+--Use a subquery or CTE with ROW_NUMBER() and PARTITION BY.
+--Display PostTypeId, Title, Score, and the rank.
+
+with TopPosts As(
+select PostTypeId,Title,Score,ROW_NUMBER() over(Partition by PostTypeId order by Score Desc) As rn
+from Posts
+
+)
+select *from TopPosts where rn<=3
+
+--13)
+--Write a query using a CTE to find all users whose reputation is above the average reputation. The CTE should calculate 
+--the average reputation first.
+--Display DisplayName, Reputation, and the average reputation.
+
+With AvgRep As(
+select Avg(Reputation) As AvgReputation
+from Users 
+)
+select DisplayName,Reputation,AvgRep.AvgReputation
+from Users cross join AvgRep 
+
+
+--14)
+--Write a query using a CTE to calculate the total number of posts and average score for each user. Then join with the Users table to 
+--display: DisplayName, Reputation, TotalPosts, and AvgScore.
+--Only include users with more than 5 posts.
+go
+with PostStatisc As(
+select OwnerUserId, count(*) As TotalPosts,Avg(Score) as AvgScore
+from Posts
+group by OwnerUserId
+having Count(*)>5
+
+)
+select u.DisplayName,u.Reputation,ps.TotalPosts,ps.AvgScore
+from 
+Users  u inner join PostStatisc ps
+on u.Id=ps.OwnerUserId
+
+
+
+--15)
+--Write a query using multiple CTEs:
+--First CTE: Calculate post count per user
+--Second CTE: Calculate badge count per user
+--Then join both CTEs with Users table to show:
+--DisplayName, Reputation, PostCount, and BadgeCount.
+--Handle NULL values by replacing them with 0.
+go
+With  PostData As(
+select OwnerUserId, Count(*) As PostCountPerUser
+from Posts
+group by OwnerUserId
+
+),
+ BadgeData As(
+select UserId,Count(*) As BadgesCountPerUser
+from Badges
+group by UserId
+)
+select u.DisplayName,Reputation,isnull(pd.PostCountPerUser,0) As PostCount,isnull(bd.BadgesCountPerUser,0) As BadgeCount
+from 
+Users u
+inner join 
+PostData pd
+on u.Id=pd.OwnerUserId
+inner join 
+BadgeData bd
+on u.Id=bd.UserId
+
+
+
+--16)
+--Write a recursive CTE to generate a sequence of numbers from 1 to 20. Display the generated numbers.
+With GenerateNumbers As(
+select 1  As GeneratedNumber
+union all
+select GeneratedNumber +1
+from GenerateNumbers
+where GeneratedNumber <20
+
+)
+select * from GenerateNumbers
+
+
+
