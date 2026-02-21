@@ -37,7 +37,8 @@
 
 1. Navigate to the folder for the topic you want.  
 2. Open the `.sql` file directly on GitHub or download it.  
-3. Copy the SQL commands to your database environment (MySQL) to execute.  
+3. Copy the SQL commands to your database environment (MS SQL Server) to execute.
+4. Use stackoverflow data base
 
 ---
 
